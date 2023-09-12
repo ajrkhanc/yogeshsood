@@ -6,10 +6,4 @@ Allow Main Site to show all posts thats belongs to the Author , Category and tag
 user only can edit his posts and admin can edit all posts.
 Also user can see the number of visitors for his posts.
 
-*  You Can try The blog Online on Heroku
-[Ajrkhan](#)
-
-![alt text](http://i.imgur.com/7nqgMQk.png "Simple Clean Blog")
-
-***
 
