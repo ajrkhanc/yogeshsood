@@ -433,10 +433,10 @@ module.exports = function (express) {
           return res.status(404).json({ message: 'User not found.' });
         }
 
-       if (!user.comparePassword(req.body.password)) {
+         if (!user.comparePassword(req.body.password)) {
           console.log('Entered Password:', req.body.password);
           console.log('Stored Password:', user.password); // This might be hashed
-          return res.status(406).json({ message: `Wrong Password. Entered: ${req.body.password}, Stored: ${user.password}` });
+          return res.status(406).json({ message: `Wrong Password. Entered: ${user.comparePassword(req.body.password)}, Stored: ${user.password}` });
         }
 
         var token = jwt.sign(user, config.superSecret, {
