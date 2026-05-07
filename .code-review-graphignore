@@ -1,0 +1,10 @@
+node_modules
+.next
+dist
+build
+coverage
+.expo
+android/build
+ios/build
+.cache
+.git

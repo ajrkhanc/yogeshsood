@@ -72,8 +72,8 @@ module.exports = function (express) {
                     .skip((perPage * page) - perPage)
                     .limit(perPage)
                     .exec(function (err, posts) {
-                        Post.count().exec(function (err, count) {
-                            if (err) return next(err)
+                        Post.countDocuments().exec(function (err, count) {
+                            if (err) { console.error(err); return; }
                             res.render('manageposts', {
                                 posts: posts,
                                 current: page,
@@ -92,8 +92,8 @@ module.exports = function (express) {
                     .skip((perPage * page) - perPage)
                     .limit(perPage)
                     .exec(function (err, posts) {
-                        Post.count().exec(function (err, count) {
-                            if (err) return next(err)
+                        Post.countDocuments().exec(function (err, count) {
+                            if (err) { console.error(err); return; }
                             res.render('manageposts', {
                                 posts: posts,
                                 current: page,
@@ -128,6 +128,7 @@ module.exports = function (express) {
             if (err) { console.log(err) }
             var feedback = new Feedback({
                 user: req.cookies.decoded._doc.username,
+                email: req.cookies.decoded._doc.email || '',
                 post: req.body.posturl,
                 comment: req.body.feedback,
                 PublishDate: new Date().toLocaleDateString(),
@@ -338,7 +339,7 @@ module.exports = function (express) {
         );
         
         app.get('/posts/delete/:id', function (req, res) {
-            Post.findOneAndRemove({ _id: req.params.id }, function (err) {
+            Post.findOneAndDelete({ _id: req.params.id }, function (err) {
                 if (err) throw err;
                 return res.redirect('/controlpanel/posts');
             });
@@ -380,7 +381,7 @@ module.exports = function (express) {
             Category.findOneAndUpdate({ Name: req.body.oldname }, { $set: { Name: req.body.name, Caturl: req.body.name.toLowerCase().split(' ').join('-') } }, function (err) {
                 if (err) throw err;
                 Post.find({ category: req.body.oldname }, function (err, posts) {
-                    for (post of posts) {
+                    for (const post of posts) {
                         post.category = req.body.name;
                         post.save();
                     }
@@ -390,7 +391,7 @@ module.exports = function (express) {
         });
 
     app.get('/categories/delete/:name', function (req, res) {
-        Category.findOneAndRemove({ Name: req.params.name }, function (err) {
+        Category.findOneAndDelete({ Name: req.params.name }, function (err) {
             if (err) throw err;
             return res.redirect('/controlpanel/categories');
         });
@@ -455,7 +456,7 @@ module.exports = function (express) {
 function tagsToArray(tagsInString) {
     var tags = tagsInString.split(',');
     var tagsjson = [];
-    for (t of tags) {
+    for (const t of tags) {
         tagsjson.push(t.trim().toLowerCase());
     }
     return tagsjson;

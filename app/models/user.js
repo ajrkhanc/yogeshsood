@@ -45,14 +45,16 @@ userSchema.plugin(uniqueValidator);
 
 userSchema.pre('save',function(next){
     var user = this;
-    if(user.password){
+    if(user.isModified('password')){
         bcrypt.hash(user.password,null,null,function(err,hashedPassword){
             if(err) {
-                return;
+                return next(err);
             }
             user.password=  hashedPassword;
             next();
         });
+    } else {
+        next();
     }
 });
 

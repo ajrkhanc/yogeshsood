@@ -23,7 +23,7 @@ module.exports = function (express) {
   // make a api to get posts from database
   apiRouter.get('/posts', function (req, res) {
     // get all posts from database
-    Post.find({ isPublished: 1 }, function (err, posts) {
+    Post.find({ isPublished: '1' }, 'Title posturl Description Author AuthorFullname tags category ImageURL ImageAlt visitors PublishDate ModifiedDate isPublished', function (err, posts) {
       if (err) {
         res.status(500).json({
           error: 'Could not retrieve posts'
@@ -241,7 +241,7 @@ module.exports = function (express) {
     const form = new formidable.IncomingForm();
     form.parse(req, function (err, fields, files) {
       console.log(files);
-      var oldPath = files.file._writeStream.path;
+      var oldPath = files.file.filepath;
       var newPath = path.join(__dirname, '../../public/uploads/proanto/resume')
         + '/' + fields.randomno+ '_' +files.file.originalFilename.replace(/\s/g, '')
       var rawData = fs.readFileSync(oldPath)
@@ -452,7 +452,6 @@ module.exports = function (express) {
     .get(function (req, res) {
       res.clearCookie('token');
       res.clearCookie('decoded');
-      res.clearCookie({});
       res.json({ message: 'LoggedOut' });
     });
 

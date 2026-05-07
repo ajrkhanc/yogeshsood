@@ -63,7 +63,7 @@ app.use(function (req, res, next) {
 
 /////////////////////////////////
 app.get('/', function (req, res) {
-    Post.find({isPublished: 1}, function (err, posts) {
+    Post.find({isPublished: '1'}, function (err, posts) {
         if (err) throw err;
         posts = posts.reverse();
         return res.render('index', { posts: posts, cats: cats });
@@ -73,15 +73,15 @@ app.get('/', function (req, res) {
 
 app.get('/posts/:posturl', function (req, res) {
     Post.findOneAndUpdate({ posturl: req.params.posturl }, { $inc: { visitors: 1 } }, function (err, post) {
+        if (err || !post) {
+            return res.status(404).send('Post not found');
+        }
         User.findOne({ username: post.Author }, function (err, user) {
-            if (typeof req.cookies.decoded != "undefined" && req.cookies.decoded._doc.username == post.Author) {
-                return res.render('singlePost', { post: post, user: user, cats: cats, editor: true });
-            } else {
-                return res.render('singlePost', { post: post, user: user, cats: cats, editor: false });
-            }
-
+            var isEditor = typeof req.cookies.decoded != "undefined" &&
+                req.cookies.decoded._doc &&
+                req.cookies.decoded._doc.username == post.Author;
+            return res.render('singlePost', { post: post, user: user, cats: cats, editor: isEditor });
         });
-
     });
 });
 
@@ -89,8 +89,7 @@ app.get('/profile/:username', function (req, res) {
     User.findOne({ username: req.params.username }, function (err, user) {
         if (err) throw err;
         if (!user) {
-            console.log('User not found');
-            return;
+            return res.status(404).send('User not found');
         }
 
         Post.find({ Author: user.username }, function (err, posts) {
@@ -106,13 +105,12 @@ app.get('/profile/:username', function (req, res) {
 });
 
 ////////////////////////////Authe&Authar Area//////////////////////////////
-app.use('/api', authapi);
 
 app.get('/signup', function (req, res) {
     if (req.cookies.token) {
+        return res.redirect('/profile');
+    } else {
         return res.render('signup', { cats: cats });
-    } else{
-        return res.render('login', { cats: cats });
     }
 });
 
