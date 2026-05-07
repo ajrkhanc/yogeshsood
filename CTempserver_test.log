@@ -1,0 +1,18 @@
+Listening on 4000
+Connected to database
+Again
+[0mGET / [32m200[0m 996.382 ms - 350594[0m
+[0mGET /api/posts [32m200[0m 250.932 ms - 260400[0m
+Again
+[0mGET / [32m200[0m 1086.725 ms - 350594[0m
+Again
+[0mGET /login [32m200[0m 38.458 ms - 5107[0m
+Again
+[0mGET /signup [32m200[0m 36.786 ms - 8574[0m
+[0mGET /api/posts [32m200[0m 293.441 ms - 260400[0m
+[0mGET /api/categories [32m200[0m 35.175 ms - 2139[0m
+Again
+[0mGET /posts/nonexistent-post-url [33m404[0m 70.089 ms - 14[0m
+Again
+[0mGET /profile/nobody-user [33m404[0m 70.647 ms - 14[0m
+[0mGET /api/posts [32m200[0m 208.746 ms - 260400[0m

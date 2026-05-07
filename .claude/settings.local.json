@@ -2,7 +2,16 @@
   "permissions": {
     "allow": [
       "mcp__code-review-graph__semantic_search_nodes_tool",
-      "mcp__code-review-graph__get_architecture_overview_tool"
+      "mcp__code-review-graph__get_architecture_overview_tool",
+      "Bash(netstat -ano)",
+      "Bash(findstr :3000)",
+      "Bash(curl -s -o nul -w \"GET /           → %{http_code}\\\\n\" http://localhost:4000/)",
+      "Bash(curl -s -o nul -w \"GET /login      → %{http_code}\\\\n\" http://localhost:4000/login)",
+      "Bash(curl -s -o nul -w \"GET /signup     → %{http_code}\\\\n\" http://localhost:4000/signup)",
+      "Bash(curl -s -o nul -w \"GET /api/posts  → %{http_code}\\\\n\" http://localhost:4000/api/posts)",
+      "Bash(curl -s -o nul -w \"GET /api/categories → %{http_code}\\\\n\" http://localhost:4000/api/categories)",
+      "Bash(curl -s http://localhost:4000/api/posts)",
+      "Bash(python -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(f'Total posts: {len\\(d\\)}'\\); print\\('Fields in first post:', list\\(d[0].keys\\(\\)\\) if d else 'No posts'\\); print\\('Content field present:', 'Content' in \\(d[0] if d else {}\\)\\)\")"
     ]
   },
   "enableAllProjectMcpServers": true,
